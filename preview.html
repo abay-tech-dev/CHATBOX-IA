@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<!--
+  ╔═══════════════════════════════════════════════════════════╗
+  ║   Apple iOS Chat Overlay — Standalone Preview             ║
+  ║   Ouvrez ce fichier dans un navigateur pour tester        ║
+  ║   le widget avant de l'importer dans StreamElements.      ║
+  ╚═══════════════════════════════════════════════════════════╝
+-->
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apple Chat Overlay — Preview</title>
+  <style>
+    /* ── Preview shell ── */
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .preview-bar {
+      width: 100%;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(20px);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      z-index: 100;
+    }
+
+    .preview-bar h1 {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.3px;
+      flex: 1;
+      white-space: nowrap;
+    }
+
+    .ctrl-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ctrl-group label {
+      color: rgba(255,255,255,0.6);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      white-space: nowrap;
+    }
+
+    .ctrl-group select,
+    .ctrl-group input[type="range"],
+    .ctrl-group input[type="color"] {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      border-radius: 7px;
+      padding: 3px 7px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .ctrl-group input[type="range"] {
+      width: 80px;
+      accent-color: #007AFF;
+    }
+
+    .ctrl-group input[type="color"] {
+      width: 32px;
+      height: 26px;
+      padding: 2px;
+      border-radius: 6px;
+    }
+
+    .btn {
+      background: #007AFF;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn:active { transform: scale(0.96); }
+    .btn.red    { background: #FF453A; }
+    .btn.purple { background: #BF5AF2; }
+    .btn.green  { background: #34C759; }
+    .btn.orange { background: #FF9F0A; }
+
+    .preview-stage {
+      position: relative;
+      width: 460px;
+      height: 640px;
+      margin: 24px auto;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+      background: transparent;
+    }
+
+    /* iPhone-like frame */
+    .iphone-frame {
+      position: absolute;
+      inset: -3px;
+      border: 3px solid rgba(255,255,255,0.15);
+      border-radius: 22px;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: transparent;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Preview controls ── -->
+<div class="preview-bar">
+  <h1>🍎 Apple Chat Overlay — Preview</h1>
+
+  <div class="ctrl-group">
+    <label>Thème</label>
+    <select id="ctrl-theme" onchange="updatePreview()">
+      <option value="dark">Sombre</option>
+      <option value="light">Clair</option>
+      <option value="amoled">AMOLED</option>
+    </select>
+  </div>
+
+  <div class="ctrl-group">
+    <label>Animation</label>
+    <select id="ctrl-anim" onchange="updatePreview()">
+      <option value="spring">Ressort</option>
+      <option value="slide">Glissement</option>
+      <option value="fade">Fondu</option>
+      <option value="none">Aucune</option>
+    </select>
+  </div>
+
+  <div class="ctrl-group">
+    <label>Align</label>
+    <select id="ctrl-align" onchange="updatePreview()">
+      <option value="left">Gauche</option>
+      <option value="right">Droite</option>
+      <option value="center">Centre</option>
+    </select>
+  </div>
+
+  <div class="ctrl-group">
+    <label>Taille</label>
+    <input type="range" id="ctrl-size" min="10" max="24" value="15" oninput="updatePreview()">
+  </div>
+
+  <div class="ctrl-group">
+    <label>Rot X</label>
+    <input type="range" id="ctrl-rx" min="-35" max="35" value="0" oninput="updatePreview()">
+  </div>
+
+  <div class="ctrl-group">
+    <label>Rot Y</label>
+    <input type="range" id="ctrl-ry" min="-35" max="35" value="0" oninput="updatePreview()">
+  </div>
+
+  <div class="ctrl-group">
+    <label>Opacité</label>
+    <input type="range" id="ctrl-opacity" min="0" max="100" value="80" oninput="updatePreview()">
+  </div>
+
+  <div class="ctrl-group">
+    <label>Accent</label>
+    <input type="color" id="ctrl-accent" value="#007AFF" oninput="updatePreview()">
+  </div>
+
+  <button class="btn" onclick="sendTestMessage('regular')">💬 Message</button>
+  <button class="btn green" onclick="sendTestMessage('moderator')">🛡️ Mod</button>
+  <button class="btn purple" onclick="sendTestMessage('vip')">💎 VIP</button>
+  <button class="btn orange" onclick="sendTestMessage('subscriber')">⭐ Sub</button>
+  <button class="btn red" onclick="sendTestMessage('broadcaster')">📡 Streamer</button>
+  <button class="btn" onclick="sendTestAlert('follower-latest')">Follow</button>
+  <button class="btn orange" onclick="sendTestAlert('subscriber-latest')">Sub</button>
+  <button class="btn red" onclick="sendTestAlert('raid-latest')">Raid</button>
+  <button class="btn purple" onclick="sendTestAlert('cheer-latest')">Bits</button>
+  <button class="btn green" onclick="sendTestAlert('tip-latest')">Don</button>
+</div>
+
+<!-- ── iPhone-style preview stage ── -->
+<div class="preview-stage">
+  <div class="iphone-frame"></div>
+  <iframe id="widget-frame" src="about:blank"></iframe>
+</div>
+
+<script>
+// ── Inject widget into iframe ──────────────────────────────
+const WIDGET_CSS = `<link rel="stylesheet" href="widget.css">`;
+
+function getWidgetHTML(config) {
+  return `<!DOCTYPE html>
+<html data-theme="${config.theme}" data-animation="${config.animation}" lang="fr">
+<head>
+<meta charset="UTF-8">
+<style>
+:root {
+  --font-size: ${config.fontSize}px;
+  --bg-opacity: ${config.opacity};
+  --accent-color: ${config.accent};
+  --mod-color: #34C759;
+  --vip-color: #BF5AF2;
+  --sub-color: #FF9F0A;
+  --broadcaster-color: #FF453A;
+}
+</style>
+${WIDGET_CSS}
+</head>
+<body>
+<div id="chat-wrapper">
+  <div id="chat-container">
+    <div id="chat-messages"></div>
+  </div>
+</div>
+<div id="alert-overlay">
+  <div id="alert-container"></div>
+</div>
+<script src="widget.js"><\/script>
+<script>
+// Override applyConfig for preview (already applied via CSS vars)
+window._cfg = {
+  fontSize: ${config.fontSize},
+  chatWidth: 100,
+  alignment: '${config.alignment}',
+  perspectiveX: ${config.rotX},
+  perspectiveY: ${config.rotY},
+  theme: '${config.theme}',
+  accentColor: '${config.accent}',
+  backgroundOpacity: ${config.opacity * 100},
+  showBadges: true,
+  showAvatars: true,
+  maxMessages: 12,
+  messageAnimation: '${config.animation}',
+  showAlerts: true,
+  alertDuration: 4,
+  modColor: '#34C759',
+  vipColor: '#BF5AF2',
+  subColor: '#FF9F0A'
+};
+// Trigger config after script loads
+setTimeout(() => {
+  if (typeof cfg !== 'undefined') {
+    Object.assign(cfg, window._cfg);
+    applyConfig();
+  }
+}, 50);
+<\/script>
+</body>
+</html>`;
+}
+
+function getConfig() {
+  return {
+    theme:     document.getElementById('ctrl-theme').value,
+    animation: document.getElementById('ctrl-anim').value,
+    alignment: document.getElementById('ctrl-align').value,
+    fontSize:  parseInt(document.getElementById('ctrl-size').value),
+    rotX:      parseInt(document.getElementById('ctrl-rx').value),
+    rotY:      parseInt(document.getElementById('ctrl-ry').value),
+    opacity:   (parseInt(document.getElementById('ctrl-opacity').value) / 100).toFixed(2),
+    accent:    document.getElementById('ctrl-accent').value,
+  };
+}
+
+function updatePreview() {
+  const iframe = document.getElementById('widget-frame');
+  iframe.srcdoc = getWidgetHTML(getConfig());
+}
+
+// Send a test chat message into the iframe
+const SAMPLE_MESSAGES = [
+  "Hey ! Ça stream bien aujourd'hui PogChamp",
+  "GG GG les frères ! C'est trop bien ce jeu BibleThump",
+  "Quelqu'un peut m'expliquer comment ça fonctionne ? 😅",
+  "LETS GOOOOO ! La victoire est là ! 🔥🔥🔥",
+  "premier jour sur la chaîne, content d'être là !",
+  "j'adore ce stream, merci à toi ! ❤️",
+  "@streamer tu vas tenter le boss ce soir ?",
+  "LUL LUL LUL trop drôle ce moment",
+  "la team est là 💪 on vous supporte !",
+  "Pog Pog Pog incroyable ce gameplay",
+];
+
+const NAMES = {
+  regular:     { name: 'ChatUser42',   color: '#007AFF',  badges: [] },
+  moderator:   { name: 'SuperMod',     color: '#34C759',  badges: [{ type: 'moderator', version: '1' }] },
+  vip:         { name: 'VIPStar',      color: '#BF5AF2',  badges: [{ type: 'vip', version: '1' }] },
+  subscriber:  { name: 'SubscribedFan',color: '#FF9F0A',  badges: [{ type: 'subscriber', version: '12' }] },
+  broadcaster: { name: 'LeStreamer',   color: '#FF453A',  badges: [{ type: 'broadcaster', version: '1' }] },
+};
+
+function sendTestMessage(role) {
+  const frame = document.getElementById('widget-frame');
+  if (!frame.contentWindow) return;
+
+  const info = NAMES[role] || NAMES.regular;
+  const text = SAMPLE_MESSAGES[Math.floor(Math.random() * SAMPLE_MESSAGES.length)];
+
+  try {
+    frame.contentWindow.dispatchEvent(new CustomEvent('onEventReceived', {
+      detail: {
+        listener: 'message',
+        event: {
+          data: {
+            displayName: info.name,
+            userName:    info.name.toLowerCase(),
+            text:        text,
+            color:       info.color,
+            badges:      info.badges,
+            emotes:      '',
+            userId:      Math.random().toString(36).slice(2),
+            tags:        {}
+          }
+        }
+      }
+    }));
+  } catch(e) {
+    console.warn('Could not dispatch to iframe:', e);
+  }
+}
+
+function sendTestAlert(type) {
+  const frame = document.getElementById('widget-frame');
+  if (!frame.contentWindow) return;
+
+  const alerts = {
+    'follower-latest':   { name: 'NouvelAbonné', amount: '' },
+    'subscriber-latest': { name: 'SuperFan',     amount: '6', months: 6, message: 'J\'adore ce stream !' },
+    'raid-latest':       { name: 'AutreStreamer', amount: '247' },
+    'cheer-latest':      { name: 'BitsDonateur',  amount: '1000', message: 'Voilà mes bits !' },
+    'tip-latest':        { name: 'DonFan',        amount: '10.00', message: 'Super contenu !' },
+  };
+
+  const data = alerts[type] || { name: 'Test', amount: '1' };
+
+  try {
+    frame.contentWindow.dispatchEvent(new CustomEvent('onEventReceived', {
+      detail: { listener: type, event: data }
+    }));
+  } catch(e) {
+    console.warn('Could not dispatch alert to iframe:', e);
+  }
+}
+
+// Initial render
+updatePreview();
+
+// Auto-demo: add messages every few seconds
+let demoTimer = null;
+function startDemo() {
+  const roles = ['regular', 'regular', 'regular', 'moderator', 'vip', 'subscriber', 'regular'];
+  let i = 0;
+  demoTimer = setInterval(() => {
+    sendTestMessage(roles[i % roles.length]);
+    i++;
+  }, 1800);
+}
+
+// Start demo after iframe loads
+document.getElementById('widget-frame').addEventListener('load', () => {
+  setTimeout(() => startDemo(), 600);
+});
+</script>
+
+</body>
+</html>

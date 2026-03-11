@@ -1,0 +1,124 @@
+{
+  "fontSize": {
+    "type": "slider",
+    "label": "Taille du texte (px)",
+    "value": 15,
+    "min": 10,
+    "max": 28,
+    "step": 1
+  },
+  "chatWidth": {
+    "type": "slider",
+    "label": "Largeur du chat (%)",
+    "value": 100,
+    "min": 30,
+    "max": 100,
+    "step": 5
+  },
+  "alignment": {
+    "type": "dropdown",
+    "label": "Alignement des messages",
+    "value": "left",
+    "options": {
+      "left":   "Gauche",
+      "right":  "Droite",
+      "center": "Centre"
+    }
+  },
+  "perspectiveX": {
+    "type": "slider",
+    "label": "Rotation 3D — Axe X (haut/bas)",
+    "value": 0,
+    "min": -45,
+    "max": 45,
+    "step": 1
+  },
+  "perspectiveY": {
+    "type": "slider",
+    "label": "Rotation 3D — Axe Y (gauche/droite)",
+    "value": 0,
+    "min": -45,
+    "max": 45,
+    "step": 1
+  },
+  "theme": {
+    "type": "dropdown",
+    "label": "Thème",
+    "value": "dark",
+    "options": {
+      "dark":   "Sombre (iOS Dark)",
+      "light":  "Clair (iOS Light)",
+      "amoled": "AMOLED (Noir pur)"
+    }
+  },
+  "accentColor": {
+    "type": "colorpicker",
+    "label": "Couleur d'accent",
+    "value": "#007AFF"
+  },
+  "backgroundOpacity": {
+    "type": "slider",
+    "label": "Opacité du fond (%)",
+    "value": 80,
+    "min": 0,
+    "max": 100,
+    "step": 5
+  },
+  "showBadges": {
+    "type": "checkbox",
+    "label": "Afficher les badges de rôle",
+    "value": true
+  },
+  "showAvatars": {
+    "type": "checkbox",
+    "label": "Afficher les avatars",
+    "value": true
+  },
+  "maxMessages": {
+    "type": "slider",
+    "label": "Nombre maximum de messages",
+    "value": 12,
+    "min": 3,
+    "max": 25,
+    "step": 1
+  },
+  "messageAnimation": {
+    "type": "dropdown",
+    "label": "Animation d'entrée",
+    "value": "spring",
+    "options": {
+      "spring": "Ressort (iOS)",
+      "slide":  "Glissement",
+      "fade":   "Fondu",
+      "none":   "Aucune"
+    }
+  },
+  "showAlerts": {
+    "type": "checkbox",
+    "label": "Afficher les alertes",
+    "value": true
+  },
+  "alertDuration": {
+    "type": "slider",
+    "label": "Durée des alertes (secondes)",
+    "value": 5,
+    "min": 2,
+    "max": 15,
+    "step": 1
+  },
+  "modColor": {
+    "type": "colorpicker",
+    "label": "Couleur Modérateur",
+    "value": "#34C759"
+  },
+  "vipColor": {
+    "type": "colorpicker",
+    "label": "Couleur VIP",
+    "value": "#BF5AF2"
+  },
+  "subColor": {
+    "type": "colorpicker",
+    "label": "Couleur Abonné",
+    "value": "#FF9F0A"
+  }
+}
