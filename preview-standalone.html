@@ -303,7 +303,7 @@ html,body{width:100%;height:100%;background:transparent;overflow:hidden;
   box-shadow:0 2px 14px rgba(0,0,0,.18),0 0 0 .5px rgba(255,255,255,.04);
   word-break:break-word;position:relative;overflow:hidden;
   transition:background .2s ease,box-shadow .2s ease;}
-.bubble-broadcaster{background:rgba(255,69,58,.14);border-color:rgba(255,69,58,.28);}
+.bubble-broadcaster{background:rgba(0,122,255,.14);border-color:rgba(0,122,255,.28);}
 .bubble-moderator{background:rgba(52,199,89,.1);border-color:rgba(52,199,89,.22);}
 .bubble-vip{background:rgba(191,90,242,.1);border-color:rgba(191,90,242,.22);}
 .bubble-subscriber{background:rgba(255,159,10,.1);border-color:rgba(255,159,10,.22);}
@@ -467,13 +467,13 @@ function detectRole(badges){
   return'regular';
 }
 function roleColor(role){
-  switch(role){case'broadcaster':return cfg.broadcasterColor||'#FF453A';
+  switch(role){case'broadcaster':return cfg.broadcasterColor||'#007AFF';
     case'moderator':return cfg.modColor||'#34C759';case'vip':return cfg.vipColor||'#BF5AF2';
     case'subscriber':return cfg.subColor||'#FF9F0A';case'partner':return'#9146FF';
     default:return cfg.accentColor||'#007AFF';}
 }
 function roleBadgeColor(type){
-  switch(type){case'broadcaster':return cfg.broadcasterColor||'#FF453A';
+  switch(type){case'broadcaster':return cfg.broadcasterColor||'#007AFF';
     case'moderator':return cfg.modColor||'#34C759';case'vip':return cfg.vipColor||'#BF5AF2';
     case'subscriber':return cfg.subColor||'#FF9F0A';case'partner':return'#9146FF';
     case'turbo':return'#7B68EE';case'premium':return'#FFD700';
@@ -558,7 +558,7 @@ function buildSrcdoc(c) {
   --bg-opacity: ${c.opacity};
   --accent-color: ${c.accent};
   --mod-color: #34C759; --vip-color: #BF5AF2; --sub-color: #FF9F0A;
-  --broadcaster-color: #FF453A;
+  --broadcaster-color: #007AFF;
 }
 ${W_CSS}
 </style>

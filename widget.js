@@ -262,7 +262,7 @@ function detectRole(badges) {
 // ─── Role → CSS color ───────────────────────────────────────
 function roleColor(role) {
   switch (role) {
-    case 'broadcaster': return cfg.broadcasterColor || '#FF453A';
+    case 'broadcaster': return cfg.broadcasterColor || '#007AFF';
     case 'moderator':   return cfg.modColor          || '#34C759';
     case 'vip':         return cfg.vipColor          || '#BF5AF2';
     case 'subscriber':  return cfg.subColor          || '#FF9F0A';
@@ -274,7 +274,7 @@ function roleColor(role) {
 // ─── Role badge border/icon color ───────────────────────────
 function roleBadgeColor(type) {
   switch (type) {
-    case 'broadcaster': return cfg.broadcasterColor || '#FF453A';
+    case 'broadcaster': return cfg.broadcasterColor || '#007AFF';
     case 'moderator':   return cfg.modColor          || '#34C759';
     case 'vip':         return cfg.vipColor          || '#BF5AF2';
     case 'subscriber':  return cfg.subColor          || '#FF9F0A';
