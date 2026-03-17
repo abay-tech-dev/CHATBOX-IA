@@ -467,6 +467,18 @@ function escapeHTML(str){if(typeof str!=='string')return String(str||'');return 
       <input type="color" id="ctrl-accent" value="#00c8ff" oninput="updateWidget()">
     </div>
 
+    <div class="ctrl-group">
+      <label>Rot X</label>
+      <input type="range" id="ctrl-rotx" min="-45" max="45" value="0" oninput="updateWidget(); document.getElementById('lbl-rotx').textContent=this.value+'°'">
+      <span id="lbl-rotx" style="color:rgba(165,185,215,0.6);font-size:10px;min-width:26px">0°</span>
+    </div>
+
+    <div class="ctrl-group">
+      <label>Rot Y</label>
+      <input type="range" id="ctrl-roty" min="-45" max="45" value="0" oninput="updateWidget(); document.getElementById('lbl-roty').textContent=this.value+'°'">
+      <span id="lbl-roty" style="color:rgba(165,185,215,0.6);font-size:10px;min-width:26px">0°</span>
+    </div>
+
     <div class="sep"></div>
 
     <span class="section-label">Messages</span>
@@ -560,8 +572,8 @@ function escapeHTML(str){if(typeof str!=='string')return String(str||'');return 
         modColor:          '#00ff88',
         vipColor:          '#a855f7',
         subColor:          '#ffc200',
-        perspectiveX:      0,
-        perspectiveY:      0,
+        perspectiveX:      parseInt(document.getElementById('ctrl-rotx').value),
+        perspectiveY:      parseInt(document.getElementById('ctrl-roty').value),
         chatWidth:         100,
         showGoal:          document.getElementById('ctrl-goal-show').checked,
         goalTitle:         document.getElementById('ctrl-goal-title').value,
@@ -582,16 +594,12 @@ function escapeHTML(str){if(typeof str!=='string')return String(str||'');return 
 <body>
 ${widgetHTML}
 <script>
-// Inject config
-let cfg = ${JSON.stringify(fields)};
-const alertQueue = [];
-let alertBusy = false, goalAutoCount = ${fields.goalCurrent};
-// Apply on load
-(function(){
 ${widgetJS}
+// Override widget defaults with preview config
+Object.assign(cfg, ${JSON.stringify(fields)});
+goalAutoCount = cfg.goalCurrent || 0;
 applyConfig();
 applyGoal();
-})();
 <\/script>
 </body>
 </html>`;
