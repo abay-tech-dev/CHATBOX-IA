@@ -2,7 +2,7 @@
   "fontSize": {
     "type": "slider",
     "label": "Taille du texte (px)",
-    "value": 15,
+    "value": 14,
     "min": 10,
     "max": 28,
     "step": 1
@@ -46,20 +46,20 @@
     "label": "Thème",
     "value": "dark",
     "options": {
-      "dark":   "Sombre (iOS Dark)",
-      "light":  "Clair (iOS Light)",
+      "dark":   "Sombre (Gamer)",
+      "light":  "Clair",
       "amoled": "AMOLED (Noir pur)"
     }
   },
   "accentColor": {
     "type": "colorpicker",
     "label": "Couleur d'accent",
-    "value": "#007AFF"
+    "value": "#00c8ff"
   },
   "backgroundOpacity": {
     "type": "slider",
     "label": "Opacité du fond (%)",
-    "value": 80,
+    "value": 88,
     "min": 0,
     "max": 100,
     "step": 5
@@ -87,7 +87,7 @@
     "label": "Animation d'entrée",
     "value": "spring",
     "options": {
-      "spring": "Ressort (iOS)",
+      "spring": "Ressort (dynamique)",
       "slide":  "Glissement",
       "fade":   "Fondu",
       "none":   "Aucune"
@@ -109,16 +109,72 @@
   "modColor": {
     "type": "colorpicker",
     "label": "Couleur Modérateur",
-    "value": "#34C759"
+    "value": "#00ff88"
   },
   "vipColor": {
     "type": "colorpicker",
     "label": "Couleur VIP",
-    "value": "#BF5AF2"
+    "value": "#a855f7"
   },
   "subColor": {
     "type": "colorpicker",
     "label": "Couleur Abonné",
-    "value": "#FF9F0A"
+    "value": "#ffc200"
+  },
+  "showGoal": {
+    "type": "checkbox",
+    "label": "── BARRE DE GOAL ── Afficher la barre de goal",
+    "value": false
+  },
+  "goalType": {
+    "type": "dropdown",
+    "label": "Goal — Type d'objectif",
+    "value": "followers",
+    "options": {
+      "followers":  "Followers",
+      "subs":       "Abonnés",
+      "bits":       "Bits",
+      "donations":  "Dons (€)"
+    }
+  },
+  "goalTitle": {
+    "type": "text",
+    "label": "Goal — Titre affiché",
+    "value": "Objectif du stream"
+  },
+  "goalCurrent": {
+    "type": "slider",
+    "label": "Goal — Valeur de départ",
+    "value": 0,
+    "min": 0,
+    "max": 10000,
+    "step": 1
+  },
+  "goalTarget": {
+    "type": "slider",
+    "label": "Goal — Valeur cible",
+    "value": 100,
+    "min": 1,
+    "max": 10000,
+    "step": 1
+  },
+  "goalOrientation": {
+    "type": "dropdown",
+    "label": "Goal — Orientation de la barre",
+    "value": "horizontal",
+    "options": {
+      "horizontal": "Horizontale (bas de l'écran)",
+      "vertical":   "Verticale (côté droit)"
+    }
+  },
+  "goalColor": {
+    "type": "colorpicker",
+    "label": "Goal — Couleur de la barre",
+    "value": "#00c8ff"
+  },
+  "goalAutoTrack": {
+    "type": "checkbox",
+    "label": "Goal — Auto-compter les événements du stream",
+    "value": true
   }
 }

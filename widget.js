@@ -1,39 +1,52 @@
 /* ============================================================
-   Apple iOS Chat Overlay — StreamElements Widget JS
+   Gamer Chat Overlay — StreamElements Widget JS
    ============================================================ */
 
 'use strict';
 
 // ─── Default field values (overridden by SE on load) ────────
 let cfg = {
-  fontSize:          15,
+  fontSize:          14,
   chatWidth:         100,
   alignment:         'left',
   perspectiveX:      0,
   perspectiveY:      0,
   theme:             'dark',
-  accentColor:       '#007AFF',
-  backgroundOpacity: 80,
+  accentColor:       '#00c8ff',
+  backgroundOpacity: 88,
   showBadges:        true,
   showAvatars:       true,
   maxMessages:       12,
   messageAnimation:  'spring',
   showAlerts:        true,
   alertDuration:     5,
-  modColor:          '#34C759',
-  vipColor:          '#BF5AF2',
-  subColor:          '#FF9F0A'
+  modColor:          '#00ff88',
+  vipColor:          '#a855f7',
+  subColor:          '#ffc200',
+  // Goal bar
+  showGoal:          false,
+  goalType:          'followers',
+  goalTitle:         'Objectif du stream',
+  goalCurrent:       0,
+  goalTarget:        100,
+  goalOrientation:   'horizontal',
+  goalColor:         '#00c8ff',
+  goalAutoTrack:     true
 };
 
 // Alert queue — ensures one alert shows at a time
-const alertQueue  = [];
-let alertBusy     = false;
+const alertQueue = [];
+let alertBusy    = false;
+
+// Goal tracking counters (auto-track from events)
+let goalAutoCount = 0;
 
 // ─── StreamElements: Widget loaded ─────────────────────────
 window.addEventListener('onWidgetLoad', (obj) => {
   const fields = obj.detail.fieldData;
   cfg = { ...cfg, ...fields };
   applyConfig();
+  applyGoal();
 });
 
 // ─── StreamElements: Event received ────────────────────────
@@ -49,6 +62,11 @@ window.addEventListener('onEventReceived', (obj) => {
   if (cfg.showAlerts) {
     enqueueAlert(listener, event);
   }
+
+  // Auto-track goal progress from events
+  if (cfg.showGoal && cfg.goalAutoTrack) {
+    trackGoalEvent(listener, event);
+  }
 });
 
 // ─── Apply all configuration ────────────────────────────────
@@ -58,12 +76,12 @@ function applyConfig() {
   const messages  = document.getElementById('chat-messages');
 
   // CSS vars
-  root.style.setProperty('--font-size',    cfg.fontSize + 'px');
-  root.style.setProperty('--bg-opacity',   (cfg.backgroundOpacity / 100).toFixed(2));
-  root.style.setProperty('--accent-color', cfg.accentColor);
-  root.style.setProperty('--mod-color',    cfg.modColor);
-  root.style.setProperty('--vip-color',    cfg.vipColor);
-  root.style.setProperty('--sub-color',    cfg.subColor);
+  root.style.setProperty('--font-size',         cfg.fontSize + 'px');
+  root.style.setProperty('--bg-opacity',        (cfg.backgroundOpacity / 100).toFixed(2));
+  root.style.setProperty('--accent-color',      cfg.accentColor);
+  root.style.setProperty('--mod-color',         cfg.modColor);
+  root.style.setProperty('--vip-color',         cfg.vipColor);
+  root.style.setProperty('--sub-color',         cfg.subColor);
 
   // Width
   container.style.width = cfg.chatWidth + '%';
@@ -84,6 +102,81 @@ function applyConfig() {
   container.style.transform = (px || py)
     ? `rotateX(${px}deg) rotateY(${py}deg)`
     : '';
+}
+
+// ─── Apply goal bar configuration ───────────────────────────
+function applyGoal() {
+  const bar = document.getElementById('goal-bar');
+  if (!bar) return;
+
+  if (!cfg.showGoal) {
+    bar.classList.remove('goal-visible');
+    return;
+  }
+
+  // Set orientation class
+  bar.className = `goal-bar goal-${cfg.goalOrientation}`;
+  bar.classList.add('goal-visible');
+
+  // Apply goal accent color
+  document.documentElement.style.setProperty('--accent-color', cfg.goalColor || cfg.accentColor);
+
+  // Set title
+  const titleEl = document.getElementById('goal-title');
+  if (titleEl) titleEl.textContent = cfg.goalTitle || 'Objectif';
+
+  // Reset auto-count to configured current value
+  goalAutoCount = parseFloat(cfg.goalCurrent) || 0;
+
+  // Update progress display
+  updateGoalProgress(goalAutoCount, cfg.goalTarget);
+}
+
+// ─── Update goal progress bar ───────────────────────────────
+function updateGoalProgress(current, target) {
+  const cur = Math.max(0, parseFloat(current) || 0);
+  const tgt = Math.max(1, parseFloat(target) || 100);
+  const pct = Math.min(100, (cur / tgt) * 100);
+
+  const curEl  = document.getElementById('goal-current');
+  const tgtEl  = document.getElementById('goal-target');
+  const pctEl  = document.getElementById('goal-percent');
+  const fillEl = document.getElementById('goal-fill');
+  const barEl  = document.getElementById('goal-bar');
+
+  if (curEl) curEl.textContent = Math.floor(cur).toLocaleString();
+  if (tgtEl) tgtEl.textContent = Math.floor(tgt).toLocaleString();
+  if (pctEl) pctEl.textContent = Math.round(pct) + '%';
+
+  if (fillEl && barEl) {
+    if (barEl.classList.contains('goal-vertical')) {
+      fillEl.style.height = pct + '%';
+      fillEl.style.width  = '100%';
+    } else {
+      fillEl.style.width  = pct + '%';
+      fillEl.style.height = '100%';
+    }
+  }
+}
+
+// ─── Auto-track goal from stream events ─────────────────────
+function trackGoalEvent(listener, event) {
+  const type = cfg.goalType;
+
+  if (type === 'followers' && listener === 'follower-latest') {
+    goalAutoCount++;
+    updateGoalProgress(goalAutoCount, cfg.goalTarget);
+  } else if (type === 'subs' && listener === 'subscriber-latest') {
+    const count = event.bulkGifted ? (event.amount || 1) : 1;
+    goalAutoCount += count;
+    updateGoalProgress(goalAutoCount, cfg.goalTarget);
+  } else if (type === 'bits' && listener === 'cheer-latest') {
+    goalAutoCount += parseFloat(event.amount) || 0;
+    updateGoalProgress(goalAutoCount, cfg.goalTarget);
+  } else if (type === 'donations' && listener === 'tip-latest') {
+    goalAutoCount += parseFloat(event.amount) || 0;
+    updateGoalProgress(goalAutoCount, cfg.goalTarget);
+  }
 }
 
 // ─── Add a chat message ─────────────────────────────────────
@@ -121,8 +214,8 @@ function addMessage(data) {
 
 // ─── Build message inner HTML ───────────────────────────────
 function buildMessageHTML(data, role, color) {
-  const avatarHTML = cfg.showAvatars  ? buildAvatar(data, role)  : '';
-  const badgesHTML = cfg.showBadges   ? buildBadges(data.badges, role) : '';
+  const avatarHTML = cfg.showAvatars ? buildAvatar(data, role)         : '';
+  const badgesHTML = cfg.showBadges  ? buildBadges(data.badges, role)  : '';
   const msgHTML    = buildText(data.text || '', data.emotes || '', data.userId || '');
   const username   = escapeHTML(data.displayName || data.userName || 'Anonyme');
 
@@ -143,8 +236,8 @@ function buildMessageHTML(data, role, color) {
 function buildAvatar(data, role) {
   const initials = (data.displayName || data.userName || '??')
     .substring(0, 2).toUpperCase();
-  const bg    = roleColor(role);
-  const ring  = role !== 'regular' ? ` ring-${role}` : '';
+  const bg   = roleColor(role);
+  const ring = role !== 'regular' ? ` ring-${role}` : '';
   return `<div class="avatar${ring}" style="background:${bg}">${initials}</div>`;
 }
 
@@ -160,8 +253,8 @@ function buildBadges(badges, role) {
   };
 
   return badgeData.map(b => {
-    const icon  = icons[b.type] || '•';
-    const c     = roleBadgeColor(b.type);
+    const icon = icons[b.type] || '•';
+    const c    = roleBadgeColor(b.type);
     return `<span class="badge badge-${b.type}" style="background:${c}22;border-color:${c}44;color:${c}">${icon}</span>`;
   }).join('');
 }
@@ -169,9 +262,7 @@ function buildBadges(badges, role) {
 // ─── Parse badges (handles string or array) ─────────────────
 function parseBadges(raw) {
   if (!raw) return [];
-  if (Array.isArray(raw)) return raw;  // Already an array of {type, version}
-
-  // Twitch string format: "moderator/1,subscriber/12"
+  if (Array.isArray(raw)) return raw;
   return String(raw).split(',').map(s => {
     const [type] = s.split('/');
     return { type };
@@ -182,14 +273,12 @@ function parseBadges(raw) {
 function buildText(text, emotesRaw, userId) {
   let safe = escapeHTML(text);
 
-  // Parse inline emotes from Twitch format "id:start-end/..."
   if (emotesRaw && typeof emotesRaw === 'string' && emotesRaw.length) {
     safe = renderEmotes(text, emotesRaw);
   } else if (emotesRaw && typeof emotesRaw === 'object') {
     safe = renderEmotesObj(text, emotesRaw);
   }
 
-  // Highlight @mentions
   safe = safe.replace(/@(\w+)/g,
     (_, name) => `<span class="mention">@${name}</span>`);
 
@@ -198,7 +287,6 @@ function buildText(text, emotesRaw, userId) {
 
 // ─── Render emotes from Twitch string format ────────────────
 function renderEmotes(text, emotesStr) {
-  // Build replacement map: [start, end, imgHTML]
   const replacements = [];
 
   emotesStr.split('/').forEach(entry => {
@@ -206,15 +294,13 @@ function renderEmotes(text, emotesStr) {
     if (!positions) return;
     positions.split(',').forEach(pos => {
       const [start, end] = pos.split('-').map(Number);
-      const img = emoteImg(id);
-      replacements.push({ start, end: end + 1, img });
+      replacements.push({ start, end: end + 1, img: emoteImg(id) });
     });
   });
 
-  // Sort by start position descending to replace from end
   replacements.sort((a, b) => b.start - a.start);
 
-  const chars = [...text]; // handle Unicode
+  const chars = [...text];
   replacements.forEach(({ start, end, img }) => {
     chars.splice(start, end - start, img);
   });
@@ -251,7 +337,7 @@ function emoteImg(id) {
 
 // ─── Role detection from badges ─────────────────────────────
 function detectRole(badges) {
-  const list = parseBadges(badges);
+  const list     = parseBadges(badges);
   const priority = ['broadcaster', 'moderator', 'vip', 'subscriber', 'partner'];
   for (const p of priority) {
     if (list.some(b => b.type === p)) return p;
@@ -262,28 +348,28 @@ function detectRole(badges) {
 // ─── Role → CSS color ───────────────────────────────────────
 function roleColor(role) {
   switch (role) {
-    case 'broadcaster': return cfg.broadcasterColor || '#007AFF';
-    case 'moderator':   return cfg.modColor          || '#34C759';
-    case 'vip':         return cfg.vipColor          || '#BF5AF2';
-    case 'subscriber':  return cfg.subColor          || '#FF9F0A';
+    case 'broadcaster': return cfg.broadcasterColor || '#00c8ff';
+    case 'moderator':   return cfg.modColor          || '#00ff88';
+    case 'vip':         return cfg.vipColor          || '#a855f7';
+    case 'subscriber':  return cfg.subColor          || '#ffc200';
     case 'partner':     return '#9146FF';
-    default:            return cfg.accentColor       || '#007AFF';
+    default:            return cfg.accentColor       || '#00c8ff';
   }
 }
 
 // ─── Role badge border/icon color ───────────────────────────
 function roleBadgeColor(type) {
   switch (type) {
-    case 'broadcaster': return cfg.broadcasterColor || '#007AFF';
-    case 'moderator':   return cfg.modColor          || '#34C759';
-    case 'vip':         return cfg.vipColor          || '#BF5AF2';
-    case 'subscriber':  return cfg.subColor          || '#FF9F0A';
+    case 'broadcaster': return cfg.broadcasterColor || '#00c8ff';
+    case 'moderator':   return cfg.modColor          || '#00ff88';
+    case 'vip':         return cfg.vipColor          || '#a855f7';
+    case 'subscriber':  return cfg.subColor          || '#ffc200';
     case 'partner':     return '#9146FF';
     case 'turbo':       return '#7B68EE';
     case 'premium':     return '#FFD700';
     case 'staff':       return '#00A8FF';
     case 'admin':       return '#FF4500';
-    default:            return cfg.accentColor || '#007AFF';
+    default:            return cfg.accentColor || '#00c8ff';
   }
 }
 
@@ -297,7 +383,7 @@ function pruneMessages(container) {
   for (let i = 0; i < excess; i++) {
     const el = all[i];
     el.classList.add('removing');
-    setTimeout(() => el.remove(), 400);
+    setTimeout(() => el.remove(), 350);
   }
 }
 
@@ -341,17 +427,17 @@ function displayAlert(listener, event) {
     setTimeout(() => {
       card.remove();
       drainAlertQueue();
-    }, 500);
+    }, 450);
   }, duration);
 }
 
 // ─── Build alert display config ─────────────────────────────
 function buildAlertConfig(listener, event) {
-  const name    = event.name    || event.displayName || event.sender || 'Quelqu\'un';
-  const amount  = event.amount  || event.count       || '';
-  const months  = event.months  || '';
-  const msg     = event.message ? ` — "${event.message}"` : '';
-  const gifter  = event.sender  || event.gifterDisplayName || '';
+  const name   = event.name    || event.displayName || event.sender || 'Quelqu\'un';
+  const amount = event.amount  || event.count       || '';
+  const months = event.months  || '';
+  const msg    = event.message ? ` — "${event.message}"` : '';
+  const gifter = event.sender  || event.gifterDisplayName || '';
 
   switch (listener) {
 
@@ -383,12 +469,10 @@ function buildAlertConfig(listener, event) {
       return {
         type:    'sub',
         icon:    '⭐',
-        title:   months > 1
-                   ? `${months} mois d'abonnement !`
-                   : 'Nouvel Abonné !',
+        title:   months > 1 ? `${months} mois d'abonnement !` : 'Nouvel Abonné !',
         message: months > 1
-                   ? `${name} est abonné depuis ${months} mois !${msg}`
-                   : `${name} vient de s'abonner !${msg}`
+          ? `${name} est abonné depuis ${months} mois !${msg}`
+          : `${name} vient de s'abonner !${msg}`
       };
 
     case 'cheer-latest':
