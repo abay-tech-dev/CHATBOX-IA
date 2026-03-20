@@ -106,11 +106,13 @@ function applyConfig() {
 
 // ─── Apply goal bar configuration ───────────────────────────
 function applyGoal() {
-  const bar = document.getElementById('goal-bar');
+  const bar     = document.getElementById('goal-bar');
+  const wrapper = document.getElementById('chat-wrapper');
   if (!bar) return;
 
   if (!cfg.showGoal) {
     bar.classList.remove('goal-visible');
+    if (wrapper) { wrapper.style.paddingBottom = ''; wrapper.style.paddingRight = ''; }
     return;
   }
 
@@ -130,6 +132,19 @@ function applyGoal() {
 
   // Update progress display
   updateGoalProgress(goalAutoCount, cfg.goalTarget);
+
+  // Push chat above the goal bar so messages don't hide behind it
+  if (wrapper) {
+    requestAnimationFrame(() => {
+      if (cfg.goalOrientation === 'horizontal') {
+        wrapper.style.paddingBottom = bar.offsetHeight + 'px';
+        wrapper.style.paddingRight  = '';
+      } else {
+        wrapper.style.paddingRight  = bar.offsetWidth + 'px';
+        wrapper.style.paddingBottom = '';
+      }
+    });
+  }
 }
 
 // ─── Update goal progress bar ───────────────────────────────
