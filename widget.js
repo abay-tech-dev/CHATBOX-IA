@@ -13,7 +13,6 @@ let cfg = {
   perspectiveY:      0,
   theme:             'dark',
   accentColor:       '#00c8ff',
-  backgroundOpacity: 88,
   showBadges:        true,
   showAvatars:       true,
   maxMessages:       12,
@@ -77,7 +76,6 @@ function applyConfig() {
 
   // CSS vars
   root.style.setProperty('--font-size',         cfg.fontSize + 'px');
-  root.style.setProperty('--bg-opacity',        (cfg.backgroundOpacity / 100).toFixed(2));
   root.style.setProperty('--accent-color',      cfg.accentColor);
   root.style.setProperty('--mod-color',         cfg.modColor);
   root.style.setProperty('--vip-color',         cfg.vipColor);
