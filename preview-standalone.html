@@ -281,8 +281,8 @@
   --mod-color:#00ff88;--vip-color:#a855f7;--sub-color:#ffc200;--broadcaster-color:#00c8ff;
   --bg-card:rgba(10,14,22,var(--bg-opacity));--bg-card-2:rgba(16,20,32,0.95);
   --text-primary:#e2e8f8;--text-secondary:rgba(165,185,215,0.65);--border-color:rgba(255,255,255,0.07);
-  --radius-card:10px;--radius-badge:4px;--avatar-size:36px;--badge-h:17px;
-  --msg-gap:6px;--pad-h:12px;--pad-v:8px;
+  --radius-card:12px;--radius-badge:4px;--avatar-size:38px;--badge-h:17px;
+  --msg-gap:10px;--pad-h:13px;--pad-v:8px;
   --spring:cubic-bezier(0.34,1.56,0.64,1);--ease-out:cubic-bezier(0.2,0,0,1);--power:cubic-bezier(0.16,1,0.3,1);
 }
 [data-theme="light"]{
@@ -309,28 +309,36 @@ html,body{width:100%;height:100%;background:transparent;overflow:hidden;font-fam
 .message.align-center .message-content{align-items:center}
 .message.align-right .message-header{flex-direction:row-reverse}
 .message.align-right .message-bubble{border-bottom-left-radius:var(--radius-card);border-bottom-right-radius:3px}
-.avatar{width:var(--avatar-size);height:var(--avatar-size);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:calc(var(--font-size)*0.75);font-weight:700;font-family:'Rajdhani','Inter',sans-serif;color:#fff;flex-shrink:0;letter-spacing:0.5px;position:relative}
-.avatar::after{content:'';position:absolute;inset:-2px;border-radius:10px;border:1.5px solid transparent;transition:border-color 0.3s,box-shadow 0.3s}
+.avatar{width:var(--avatar-size);height:var(--avatar-size);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:calc(var(--font-size)*0.75);font-weight:700;font-family:'Rajdhani','Inter',sans-serif;color:#fff;flex-shrink:0;letter-spacing:0.5px;position:relative;overflow:hidden}
+.avatar-pic{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:7px}
+.avatar::after{content:'';position:absolute;inset:-2px;border-radius:10px;border:1.5px solid transparent;transition:border-color 0.3s,box-shadow 0.3s;z-index:2;pointer-events:none}
 .avatar.ring-broadcaster::after{border-color:var(--broadcaster-color);box-shadow:0 0 8px var(--broadcaster-color)}
 .avatar.ring-moderator::after{border-color:var(--mod-color);box-shadow:0 0 8px var(--mod-color)}
 .avatar.ring-vip::after{border-color:var(--vip-color);box-shadow:0 0 8px var(--vip-color)}
 .avatar.ring-subscriber::after{border-color:var(--sub-color);box-shadow:0 0 8px var(--sub-color)}
-.message-content{display:flex;flex-direction:column;gap:3px;min-width:0;max-width:calc(100% - var(--avatar-size) - 16px)}
-.message-header{display:flex;align-items:center;gap:5px;padding:0 4px}
-.username{font-family:'Rajdhani','Inter',sans-serif;font-size:calc(var(--font-size)*0.9);font-weight:700;letter-spacing:0.6px;text-transform:uppercase;white-space:nowrap}
+.message-content{display:flex;flex-direction:column;gap:0;min-width:0;max-width:calc(100% - var(--avatar-size) - 16px)}
+.message-header{display:flex;align-items:center;gap:5px;padding:7px var(--pad-h) 5px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.message.align-right .message-header{flex-direction:row-reverse}
+.username{font-family:'Rajdhani','Inter',sans-serif;font-size:calc(var(--font-size)*0.88);font-weight:700;letter-spacing:0.6px;text-transform:uppercase;white-space:nowrap}
 .badge{display:inline-flex;align-items:center;height:var(--badge-h);min-width:var(--badge-h);padding:0 5px;border-radius:var(--radius-badge);font-size:calc(var(--font-size)*0.6);font-weight:700;font-family:'Rajdhani',sans-serif;border:1px solid transparent;flex-shrink:0;line-height:1;letter-spacing:0.3px}
-.message-bubble{background:var(--bg-card);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border-radius:var(--radius-card);border-bottom-left-radius:3px;padding:var(--pad-v) var(--pad-h);border:1px solid var(--border-color);box-shadow:0 4px 20px rgba(0,0,0,0.35),0 1px 0 rgba(255,255,255,0.03);word-break:break-word;position:relative;overflow:hidden;transition:background 0.2s,box-shadow 0.2s}
-.bubble-regular{border-color:rgba(200,215,240,0.18);box-shadow:0 4px 20px rgba(0,0,0,0.35),0 0 0 1px rgba(255,255,255,0.04) inset,inset 3px 0 0 rgba(200,215,240,0.2)}
-.bubble-broadcaster{background:rgba(0,200,255,0.08);border-color:rgba(0,200,255,0.22);box-shadow:0 4px 20px rgba(0,0,0,0.35),0 0 14px rgba(0,200,255,0.08)}
-.bubble-moderator{background:rgba(0,255,136,0.07);border-color:rgba(0,255,136,0.2);box-shadow:0 4px 20px rgba(0,0,0,0.35),0 0 14px rgba(0,255,136,0.07)}
-.bubble-vip{background:rgba(168,85,247,0.08);border-color:rgba(168,85,247,0.22);box-shadow:0 4px 20px rgba(0,0,0,0.35),0 0 14px rgba(168,85,247,0.08)}
-.bubble-subscriber{background:rgba(255,194,0,0.07);border-color:rgba(255,194,0,0.2);box-shadow:0 4px 20px rgba(0,0,0,0.35),0 0 14px rgba(255,194,0,0.07)}
+.message-bubble{background:var(--bg-card);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border-radius:var(--radius-card);border-bottom-left-radius:3px;padding:0;border:1px solid var(--border-color);box-shadow:0 4px 20px rgba(0,0,0,0.35),0 1px 0 rgba(255,255,255,0.03);word-break:break-word;position:relative;overflow:visible;transition:background 0.2s,box-shadow 0.2s}
+.bubble-regular{background:rgba(255,255,255,0.04);border-color:rgba(160,185,235,0.24);box-shadow:0 4px 20px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.06) inset}
+.bubble-regular .message-header{border-bottom-color:rgba(160,185,235,0.10)}
+.bubble-broadcaster{background:rgba(0,200,255,0.08);border-color:rgba(0,200,255,0.26);box-shadow:0 4px 20px rgba(0,0,0,0.35),0 0 14px rgba(0,200,255,0.10)}
+.bubble-broadcaster .message-header{border-bottom-color:rgba(0,200,255,0.14)}
+.bubble-moderator{background:rgba(0,255,136,0.07);border-color:rgba(0,255,136,0.24);box-shadow:0 4px 20px rgba(0,0,0,0.35),0 0 14px rgba(0,255,136,0.09)}
+.bubble-moderator .message-header{border-bottom-color:rgba(0,255,136,0.12)}
+.bubble-vip{background:rgba(168,85,247,0.08);border-color:rgba(168,85,247,0.26);box-shadow:0 4px 20px rgba(0,0,0,0.35),0 0 14px rgba(168,85,247,0.10)}
+.bubble-vip .message-header{border-bottom-color:rgba(168,85,247,0.14)}
+.bubble-subscriber{background:rgba(255,194,0,0.07);border-color:rgba(255,194,0,0.24);box-shadow:0 4px 20px rgba(0,0,0,0.35),0 0 14px rgba(255,194,0,0.09)}
+.bubble-subscriber .message-header{border-bottom-color:rgba(255,194,0,0.12)}
 .bubble-broadcaster::before,.bubble-moderator::before,.bubble-vip::before,.bubble-subscriber::before{content:'';position:absolute;left:0;top:5px;bottom:5px;width:3px;border-radius:0 2px 2px 0}
 .bubble-broadcaster::before{background:var(--broadcaster-color);box-shadow:0 0 8px var(--broadcaster-color)}
 .bubble-moderator::before{background:var(--mod-color);box-shadow:0 0 8px var(--mod-color)}
 .bubble-vip::before{background:var(--vip-color);box-shadow:0 0 8px var(--vip-color)}
 .bubble-subscriber::before{background:var(--sub-color);box-shadow:0 0 8px var(--sub-color)}
-.message-text{color:var(--text-primary);font-size:var(--font-size);line-height:1.45;font-family:'Inter',system-ui,sans-serif}
+.message.align-right .bubble-broadcaster::before,.message.align-right .bubble-moderator::before,.message.align-right .bubble-vip::before,.message.align-right .bubble-subscriber::before{left:auto;right:0;border-radius:2px 0 0 2px}
+.message-text{display:block;color:var(--text-primary);font-size:var(--font-size);line-height:1.5;font-family:'Inter',system-ui,sans-serif;padding:6px var(--pad-h) 9px}
 .emote-img{height:calc(var(--font-size)*1.7);width:auto;vertical-align:middle;margin:-3px 2px}
 .mention{background:rgba(0,200,255,0.15);color:var(--accent-color);border-radius:4px;padding:0 4px;font-weight:600;text-shadow:0 0 8px var(--accent-color)}
 .message-bits .message-bubble{background:linear-gradient(135deg,rgba(100,0,200,0.12),rgba(168,85,247,0.12));border-color:rgba(168,85,247,0.38);animation:bitsPulse 2s ease-in-out infinite}
@@ -377,7 +385,10 @@ html,body{width:100%;height:100%;background:transparent;overflow:hidden;font-fam
 .alert-content{flex:1;min-width:0;z-index:1}
 .alert-title{font-family:'Rajdhani','Inter',sans-serif;font-size:calc(var(--font-size)*0.75);font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:3px}
 .alert-message{font-size:calc(var(--font-size)*1.05);font-weight:600;color:var(--text-primary);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-[data-theme="light"] .message-bubble{border-color:rgba(0,0,0,0.07);box-shadow:0 2px 14px rgba(0,0,0,0.1)}
+[data-theme="light"] .message-bubble{border-color:rgba(0,0,0,0.08);box-shadow:0 2px 14px rgba(0,0,0,0.08)}
+[data-theme="light"] .message-header{border-bottom-color:rgba(0,0,0,0.06)}
+[data-theme="light"] .bubble-regular{background:rgba(0,0,0,0.025);border-color:rgba(0,0,0,0.10)}
+[data-theme="light"] .bubble-regular .message-header{border-bottom-color:rgba(0,0,0,0.05)}
 [data-theme="light"] .alert-card{border-color:rgba(0,0,0,0.09);box-shadow:0 20px 60px rgba(0,0,0,0.15)}
 [data-theme="light"] .goal-track{background:rgba(0,0,0,0.08)}
   </script>
@@ -394,8 +405,9 @@ function applyGoal(){const bar=document.getElementById('goal-bar'),wrapper=docum
 function updateGoalProgress(current,target){const cur=Math.max(0,parseFloat(current)||0),tgt=Math.max(1,parseFloat(target)||100),pct=Math.min(100,(cur/tgt)*100);const curEl=document.getElementById('goal-current'),tgtEl=document.getElementById('goal-target'),pctEl=document.getElementById('goal-percent'),fillEl=document.getElementById('goal-fill'),barEl=document.getElementById('goal-bar');if(curEl)curEl.textContent=Math.floor(cur).toLocaleString();if(tgtEl)tgtEl.textContent=Math.floor(tgt).toLocaleString();if(pctEl)pctEl.textContent=Math.round(pct)+'%';if(fillEl&&barEl){if(barEl.classList.contains('goal-vertical')){fillEl.style.height=pct+'%';fillEl.style.width='100%'}else{fillEl.style.width=pct+'%';fillEl.style.height='100%'}}}
 function trackGoalEvent(listener,event){const type=cfg.goalType;if(type==='followers'&&listener==='follower-latest'){goalAutoCount++;updateGoalProgress(goalAutoCount,cfg.goalTarget)}else if(type==='subs'&&listener==='subscriber-latest'){goalAutoCount+=(event.bulkGifted?(event.amount||1):1);updateGoalProgress(goalAutoCount,cfg.goalTarget)}else if(type==='bits'&&listener==='cheer-latest'){goalAutoCount+=parseFloat(event.amount)||0;updateGoalProgress(goalAutoCount,cfg.goalTarget)}else if(type==='donations'&&listener==='tip-latest'){goalAutoCount+=parseFloat(event.amount)||0;updateGoalProgress(goalAutoCount,cfg.goalTarget)}}
 function addMessage(data){if(!data)return;const messagesEl=document.getElementById('chat-messages'),role=detectRole(data.badges),color=data.color||roleColor(role);let extraClass='';if(data.tags&&data.tags['msg-id']==='highlighted-message')extraClass='message-highlighted';if(data.tags&&data.tags['first-msg']==='1')extraClass='message-firsttime';if(data.tags&&data.tags['bits'])extraClass='message-bits';const el=document.createElement('div');el.className=['message',`message-${role}`,`align-${cfg.alignment}`,extraClass].filter(Boolean).join(' ');el.innerHTML=buildMessageHTML(data,role,color);messagesEl.appendChild(el);requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('visible')));pruneMessages(messagesEl)}
-function buildMessageHTML(data,role,color){const avatarHTML=cfg.showAvatars?buildAvatar(data,role):'',badgesHTML=cfg.showBadges?buildBadges(data.badges,role):'',msgHTML=buildText(data.text||'',data.emotes||'',data.userId||''),username=escapeHTML(data.displayName||data.userName||'Anonyme');return`${avatarHTML}<div class="message-content"><div class="message-header">${badgesHTML}<span class="username" style="color:${color}">${username}</span></div><div class="message-bubble bubble-${role}"><span class="message-text">${msgHTML}</span></div></div>`}
-function buildAvatar(data,role){const initials=(data.displayName||data.userName||'??').substring(0,2).toUpperCase(),bg=roleColor(role),ring=role!=='regular'?` ring-${role}`:'';return`<div class="avatar${ring}" style="background:${bg}">${initials}</div>`}
+function buildMessageHTML(data,role,color){const avatarHTML=cfg.showAvatars?buildAvatar(data,role,color):'',badgesHTML=cfg.showBadges?buildBadges(data.badges,role):'',msgHTML=buildText(data.text||'',data.emotes||'',data.userId||''),username=escapeHTML(data.displayName||data.userName||'Anonyme'),glow=`text-shadow:0 0 10px ${color}70`;return`${avatarHTML}<div class="message-content"><div class="message-bubble bubble-${role}"><div class="message-header">${badgesHTML}<span class="username" style="color:${color};${glow}">${username}</span></div><span class="message-text">${msgHTML}</span></div></div>`}
+function buildAvatar(data,role,color){const ring=role!=='regular'?` ring-${role}`:'',bg=hexToRgba(color,0.30),brd=hexToRgba(color,0.60),styleStr=role!=='regular'?`background:${bg}`:`background:${bg};border:1.5px solid ${brd}`;if(data.avatar){const src=String(data.avatar).replace(/"/g,'');return`<div class="avatar${ring}" style="${styleStr}"><img class="avatar-pic" src="${src}" alt="" loading="lazy" onerror="this.style.display='none'"></div>`}const initials=(data.displayName||data.userName||'??').substring(0,2).toUpperCase();return`<div class="avatar${ring}" style="${styleStr}">${initials}</div>`}
+function hexToRgba(hex,alpha){if(!hex||!hex.startsWith('#'))return`rgba(120,120,180,${alpha})`;const h=hex.replace('#',''),r=parseInt(h.substring(0,2),16)||0,g=parseInt(h.substring(2,4),16)||0,b=parseInt(h.substring(4,6),16)||0;return`rgba(${r},${g},${b},${alpha})`}
 function buildBadges(badges,role){const badgeData=parseBadges(badges);if(!badgeData.length)return'';const icons={broadcaster:'📡',moderator:'🛡️',vip:'💎',subscriber:'⭐',partner:'✓',turbo:'⚡',premium:'👑',staff:'⚙️',admin:'🔑'};return badgeData.map(b=>{const icon=icons[b.type]||'•',c=roleBadgeColor(b.type);return`<span class="badge badge-${b.type}" style="background:${c}22;border-color:${c}44;color:${c}">${icon}</span>`}).join('')}
 function parseBadges(raw){if(!raw)return[];if(Array.isArray(raw))return raw;return String(raw).split(',').map(s=>{const[type]=s.split('/');return{type}}).filter(b=>b.type)}
 function buildText(text,emotesRaw,userId){let safe=escapeHTML(text);if(emotesRaw&&typeof emotesRaw==='string'&&emotesRaw.length)safe=renderEmotes(text,emotesRaw);else if(emotesRaw&&typeof emotesRaw==='object')safe=renderEmotesObj(text,emotesRaw);return safe.replace(/@(\w+)/g,(_,name)=>`<span class="mention">@${name}</span>`)}
@@ -618,6 +630,10 @@ applyGoal();
     }
 
     // ─── Send message to iframe ───────────────────────────────
+    // Avatar placeholders — consistent per username seed
+    const avatarUrl = name =>
+      `https://api.dicebear.com/9.x/pixel-art/svg?seed=${encodeURIComponent(name)}&backgroundColor=0a0e1a,101428,0d1020`;
+
     const names = {
       regular:     ['Tyler', 'Zoe', 'Emma', 'Chris', 'Lily', 'Alex', 'Sam'],
       moderator:   ['ModKevin', 'SentinelX'],
@@ -651,12 +667,23 @@ applyGoal();
         subscriber:  'subscriber/12'
       };
 
+      const colors = {
+        regular: ['#FF6B6B','#4ECDC4','#45B7D1','#96CEB4','#DDA0DD','#87CEEB','#F0A500'],
+        moderator: ['#00ff88','#00cc70'],
+        vip: ['#a855f7','#9333ea'],
+        subscriber: ['#ffc200','#ffb000'],
+        broadcaster: ['#00c8ff']
+      };
+      const colorList = colors[role] || colors.regular;
+      const userColor = colorList[Math.floor(Math.random() * colorList.length)];
+
       const event = {
         listener: 'message',
         event: { data: {
           displayName: name,
           text:        text,
-          color:       null,
+          color:       userColor,
+          avatar:      avatarUrl(name),
           badges:      badgeMap[role] || '',
           emotes:      '',
           userId:      Math.random().toString(36).slice(2),

@@ -229,31 +229,57 @@ function addMessage(data) {
 
 // ─── Build message inner HTML ───────────────────────────────
 function buildMessageHTML(data, role, color) {
-  const avatarHTML = cfg.showAvatars ? buildAvatar(data, role)         : '';
+  const avatarHTML = cfg.showAvatars ? buildAvatar(data, role, color)  : '';
   const badgesHTML = cfg.showBadges  ? buildBadges(data.badges, role)  : '';
   const msgHTML    = buildText(data.text || '', data.emotes || '', data.userId || '');
   const username   = escapeHTML(data.displayName || data.userName || 'Anonyme');
+  // Subtle glow matching user color
+  const glow       = `text-shadow: 0 0 10px ${color}70`;
 
   return `
     ${avatarHTML}
     <div class="message-content">
-      <div class="message-header">
-        ${badgesHTML}
-        <span class="username" style="color:${color}">${username}</span>
-      </div>
       <div class="message-bubble bubble-${role}">
+        <div class="message-header">
+          ${badgesHTML}
+          <span class="username" style="color:${color};${glow}">${username}</span>
+        </div>
         <span class="message-text">${msgHTML}</span>
       </div>
     </div>`;
 }
 
 // ─── Build avatar element ───────────────────────────────────
-function buildAvatar(data, role) {
-  const initials = (data.displayName || data.userName || '??')
-    .substring(0, 2).toUpperCase();
-  const bg   = roleColor(role);
+function buildAvatar(data, role, color) {
   const ring = role !== 'regular' ? ` ring-${role}` : '';
-  return `<div class="avatar${ring}" style="background:${bg}">${initials}</div>`;
+  // Background color: dimmed user color
+  const bg  = hexToRgba(color, 0.30);
+  const brd = hexToRgba(color, 0.60);
+  const styleStr = role !== 'regular'
+    ? `background:${bg}`
+    : `background:${bg};border:1.5px solid ${brd}`;
+
+  // Show actual profile picture if available (SE provides data.avatar)
+  if (data.avatar) {
+    const src = String(data.avatar).replace(/"/g, '');
+    return `<div class="avatar${ring}" style="${styleStr}">` +
+           `<img class="avatar-pic" src="${src}" alt="" loading="lazy" onerror="this.style.display='none'">` +
+           `</div>`;
+  }
+
+  // Fallback: colored initials
+  const initials = (data.displayName || data.userName || '??').substring(0, 2).toUpperCase();
+  return `<div class="avatar${ring}" style="${styleStr}">${initials}</div>`;
+}
+
+// ─── Hex color to rgba ──────────────────────────────────────
+function hexToRgba(hex, alpha) {
+  if (!hex || !hex.startsWith('#')) return `rgba(120,120,180,${alpha})`;
+  const h = hex.replace('#', '');
+  const r = parseInt(h.substring(0, 2), 16) || 0;
+  const g = parseInt(h.substring(2, 4), 16) || 0;
+  const b = parseInt(h.substring(4, 6), 16) || 0;
+  return `rgba(${r},${g},${b},${alpha})`;
 }
 
 // ─── Build role badge pills ─────────────────────────────────
