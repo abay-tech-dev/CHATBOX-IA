@@ -545,9 +545,7 @@ html, body {
 }
 
 .goal-bar.goal-vertical .goal-percent {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  transform: rotate(180deg);
+  writing-mode: horizontal-tb;
   font-size: calc(var(--font-size) * 0.72);
   text-align: center;
 }

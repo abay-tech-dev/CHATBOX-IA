@@ -364,7 +364,7 @@ html,body{width:100%;height:100%;background:transparent;overflow:hidden;font-fam
 .goal-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 20%,rgba(255,255,255,0.35) 50%,transparent 80%);animation:goalScan 2s ease-in-out infinite}
 @keyframes goalScan{0%{transform:translateX(-120%);opacity:0}40%{opacity:1}100%{transform:translateX(120%);opacity:0}}
 .goal-percent{font-family:'Rajdhani','Inter',sans-serif;font-size:calc(var(--font-size)*0.78);font-weight:700;color:var(--accent-color);text-shadow:0 0 8px var(--accent-color);text-align:right;white-space:nowrap}
-.goal-bar.goal-vertical .goal-percent{writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);font-size:calc(var(--font-size)*0.72);text-align:center}
+.goal-bar.goal-vertical .goal-percent{writing-mode:horizontal-tb;font-size:calc(var(--font-size)*0.72);text-align:center}
 #alert-overlay{position:fixed;inset:0;pointer-events:none;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:16px;z-index:9999}
 #alert-container{display:flex;flex-direction:column;gap:10px;align-items:center;width:88%;max-width:480px}
 .alert-card{width:100%;background:var(--bg-card);backdrop-filter:blur(32px) saturate(1.5);-webkit-backdrop-filter:blur(32px) saturate(1.5);border-radius:12px;padding:16px 20px;border:1px solid rgba(255,255,255,0.1);box-shadow:0 20px 60px rgba(0,0,0,0.6),0 0 0 0.5px rgba(255,255,255,0.04);display:flex;align-items:center;gap:14px;opacity:0;transform:translateY(-24px) scale(0.94);transition:opacity 0.4s var(--spring),transform 0.4s var(--spring);position:relative;overflow:hidden}
