@@ -1,7 +1,7 @@
 {
   "fontSize": {
     "type": "slider",
-    "label": "Taille du texte (px)",
+    "label": "Text size (px)",
     "value": 14,
     "min": 10,
     "max": 28,
@@ -9,7 +9,7 @@
   },
   "chatWidth": {
     "type": "slider",
-    "label": "Largeur du chat (%)",
+    "label": "Chat width (%)",
     "value": 100,
     "min": 30,
     "max": 100,
@@ -17,17 +17,17 @@
   },
   "alignment": {
     "type": "dropdown",
-    "label": "Alignement des messages",
+    "label": "Message alignment",
     "value": "left",
     "options": {
-      "left":   "Gauche",
-      "right":  "Droite",
-      "center": "Centre"
+      "left":   "Left",
+      "right":  "Right",
+      "center": "Center"
     }
   },
   "perspectiveX": {
     "type": "slider",
-    "label": "Rotation 3D — Axe X (haut/bas)",
+    "label": "3D Rotation — X Axis (up/down)",
     "value": 0,
     "min": -45,
     "max": 45,
@@ -35,7 +35,7 @@
   },
   "perspectiveY": {
     "type": "slider",
-    "label": "Rotation 3D — Axe Y (gauche/droite)",
+    "label": "3D Rotation — Y Axis (left/right)",
     "value": 0,
     "min": -45,
     "max": 45,
@@ -43,32 +43,32 @@
   },
   "theme": {
     "type": "dropdown",
-    "label": "Thème",
-    "value": "dark",
+    "label": "Theme",
+    "value": "amoled",
     "options": {
-      "dark":   "Sombre (Gamer)",
-      "light":  "Clair",
-      "amoled": "AMOLED (Noir pur)"
+      "dark":   "Dark (Gamer)",
+      "light":  "Light",
+      "amoled": "AMOLED (Pure Black)"
     }
   },
   "accentColor": {
     "type": "colorpicker",
-    "label": "Couleur d'accent",
+    "label": "Accent color",
     "value": "#00c8ff"
   },
   "showBadges": {
     "type": "checkbox",
-    "label": "Afficher les badges de rôle",
+    "label": "Show role badges",
     "value": true
   },
   "showAvatars": {
     "type": "checkbox",
-    "label": "Afficher les avatars",
+    "label": "Show avatars",
     "value": true
   },
   "maxMessages": {
     "type": "slider",
-    "label": "Nombre maximum de messages",
+    "label": "Maximum number of messages",
     "value": 12,
     "min": 3,
     "max": 25,
@@ -76,23 +76,23 @@
   },
   "messageAnimation": {
     "type": "dropdown",
-    "label": "Animation d'entrée",
+    "label": "Entry animation",
     "value": "spring",
     "options": {
-      "spring": "Ressort (dynamique)",
-      "slide":  "Glissement",
-      "fade":   "Fondu",
-      "none":   "Aucune"
+      "spring": "Spring (dynamic)",
+      "slide":  "Slide",
+      "fade":   "Fade",
+      "none":   "None"
     }
   },
   "showAlerts": {
     "type": "checkbox",
-    "label": "Afficher les alertes",
+    "label": "Show alerts",
     "value": true
   },
   "alertDuration": {
     "type": "slider",
-    "label": "Durée des alertes (secondes)",
+    "label": "Alert duration (seconds)",
     "value": 5,
     "min": 2,
     "max": 15,
@@ -100,67 +100,67 @@
   },
   "modColor": {
     "type": "colorpicker",
-    "label": "Couleur Modérateur",
+    "label": "Moderator color",
     "value": "#00ff88"
   },
   "vipColor": {
     "type": "colorpicker",
-    "label": "Couleur VIP",
+    "label": "VIP color",
     "value": "#a855f7"
   },
   "subColor": {
     "type": "colorpicker",
-    "label": "Couleur Abonné",
+    "label": "Subscriber color",
     "value": "#ffc200"
   },
   "showGoal": {
     "type": "checkbox",
-    "label": "── BARRE DE GOAL ── Afficher la barre de goal",
+    "label": "── GOAL BAR ── Show goal bar",
     "value": false
   },
   "goalType": {
     "type": "dropdown",
-    "label": "Goal — Type d'objectif",
+    "label": "Goal — Objective type",
     "value": "followers",
     "options": {
       "followers":  "Followers",
-      "subs":       "Abonnés",
+      "subs":       "Subscribers",
       "bits":       "Bits",
-      "donations":  "Dons (€)"
+      "donations":  "Donations (€)"
     }
   },
   "goalTitle": {
     "type": "text",
-    "label": "Goal — Titre affiché",
-    "value": "Objectif du stream"
+    "label": "Goal — Display title",
+    "value": "Stream goal"
   },
   "goalCurrent": {
     "type": "text",
-    "label": "Goal — Valeur de départ (1 à 10000)",
+    "label": "Goal — Starting value (1 to 10000)",
     "value": "0"
   },
   "goalTarget": {
     "type": "text",
-    "label": "Goal — Valeur cible (1 à 10000)",
+    "label": "Goal — Target value (1 to 10000)",
     "value": "100"
   },
   "goalOrientation": {
     "type": "dropdown",
-    "label": "Goal — Orientation de la barre",
+    "label": "Goal — Bar orientation",
     "value": "horizontal",
     "options": {
-      "horizontal": "Horizontale (bas de l'écran)",
-      "vertical":   "Verticale (côté droit)"
+      "horizontal": "Horizontal (bottom of screen)",
+      "vertical":   "Vertical (right side)"
     }
   },
   "goalColor": {
     "type": "colorpicker",
-    "label": "Goal — Couleur de la barre",
+    "label": "Goal — Bar color",
     "value": "#00c8ff"
   },
   "goalAutoTrack": {
     "type": "checkbox",
-    "label": "Goal — Auto-compter les événements du stream",
+    "label": "Goal — Auto-count stream events",
     "value": true
   }
 }
