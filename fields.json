@@ -1,4 +1,20 @@
 {
+  "widgetWidth": {
+    "type": "slider",
+    "label": "Largeur du widget (px) — régler identique à OBS",
+    "value": 400,
+    "min": 200,
+    "max": 1920,
+    "step": 10
+  },
+  "widgetHeight": {
+    "type": "slider",
+    "label": "Hauteur du widget (px) — régler identique à OBS",
+    "value": 700,
+    "min": 200,
+    "max": 1080,
+    "step": 10
+  },
   "fontSize": {
     "type": "slider",
     "label": "Taille du texte (px)",

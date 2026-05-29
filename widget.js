@@ -6,6 +6,8 @@
 
 // ─── Default field values (overridden by SE on load) ────────
 let cfg = {
+  widgetWidth:       400,
+  widgetHeight:      700,
   fontSize:          15,
   chatWidth:         100,
   alignment:         'left',
@@ -54,8 +56,13 @@ window.addEventListener('onEventReceived', (obj) => {
 // ─── Apply all configuration ────────────────────────────────
 function applyConfig() {
   const root      = document.documentElement;
+  const wrapper   = document.getElementById('chat-wrapper');
   const container = document.getElementById('chat-container');
   const messages  = document.getElementById('chat-messages');
+
+  // Widget dimensions
+  wrapper.style.width  = cfg.widgetWidth  + 'px';
+  wrapper.style.height = cfg.widgetHeight + 'px';
 
   // CSS vars
   root.style.setProperty('--font-size',    cfg.fontSize + 'px');
