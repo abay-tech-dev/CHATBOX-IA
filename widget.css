@@ -90,9 +90,11 @@ html, body {
 }
 
 /* ─── 3D Wrapper ─────────────────────────────────────────── */
+/* position:fixed + inset:0 garantit que le widget couvre toujours
+   exactement la source navigateur OBS, sans décalage ni débordement */
 #chat-wrapper {
-  width: 100%;
-  height: 100%;
+  position: fixed;
+  inset: 0;
   perspective: 1200px;
   perspective-origin: 50% 50%;
 }
