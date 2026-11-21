@@ -2,11 +2,11 @@
 <!--
   ╔═══════════════════════════════════════════════════════════╗
   ║   Apple iOS Chat Overlay — Standalone Preview             ║
-  ║   Ouvrez ce fichier dans un navigateur pour tester        ║
-  ║   le widget avant de l'importer dans StreamElements.      ║
+  ║   Open this file in a browser to test the widget          ║
+  ║   before importing it into StreamElements.                ║
   ╚═══════════════════════════════════════════════════════════╝
 -->
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -139,10 +139,10 @@
   <h1>🍎 Apple Chat Overlay — Preview</h1>
 
   <div class="ctrl-group">
-    <label>Thème</label>
+    <label>Theme</label>
     <select id="ctrl-theme" onchange="updatePreview()">
-      <option value="dark">Sombre</option>
-      <option value="light">Clair</option>
+      <option value="dark">Dark</option>
+      <option value="light">Light</option>
       <option value="amoled">AMOLED</option>
     </select>
   </div>
@@ -150,24 +150,24 @@
   <div class="ctrl-group">
     <label>Animation</label>
     <select id="ctrl-anim" onchange="updatePreview()">
-      <option value="spring">Ressort</option>
-      <option value="slide">Glissement</option>
-      <option value="fade">Fondu</option>
-      <option value="none">Aucune</option>
+      <option value="spring">Spring</option>
+      <option value="slide">Slide</option>
+      <option value="fade">Fade</option>
+      <option value="none">None</option>
     </select>
   </div>
 
   <div class="ctrl-group">
     <label>Align</label>
     <select id="ctrl-align" onchange="updatePreview()">
-      <option value="left">Gauche</option>
-      <option value="right">Droite</option>
-      <option value="center">Centre</option>
+      <option value="left">Left</option>
+      <option value="right">Right</option>
+      <option value="center">Center</option>
     </select>
   </div>
 
   <div class="ctrl-group">
-    <label>Taille</label>
+    <label>Size</label>
     <input type="range" id="ctrl-size" min="10" max="24" value="15" oninput="updatePreview()">
   </div>
 
@@ -182,7 +182,7 @@
   </div>
 
   <div class="ctrl-group">
-    <label>Opacité</label>
+    <label>Opacity</label>
     <input type="range" id="ctrl-opacity" min="0" max="100" value="80" oninput="updatePreview()">
   </div>
 
@@ -294,16 +294,16 @@ function updatePreview() {
 
 // Send a test chat message into the iframe
 const SAMPLE_MESSAGES = [
-  "Hey ! Ça stream bien aujourd'hui PogChamp",
-  "GG GG les frères ! C'est trop bien ce jeu BibleThump",
-  "Quelqu'un peut m'expliquer comment ça fonctionne ? 😅",
-  "LETS GOOOOO ! La victoire est là ! 🔥🔥🔥",
-  "premier jour sur la chaîne, content d'être là !",
-  "j'adore ce stream, merci à toi ! ❤️",
-  "@streamer tu vas tenter le boss ce soir ?",
-  "LUL LUL LUL trop drôle ce moment",
-  "la team est là 💪 on vous supporte !",
-  "Pog Pog Pog incroyable ce gameplay",
+  "Hey! Great stream today PogChamp",
+  "GG GG everyone! This game is so good BibleThump",
+  "Can someone explain how this works? 😅",
+  "LETS GOOOOO! We got the win! 🔥🔥🔥",
+  "first day on the channel, happy to be here!",
+  "love this stream, thank you! ❤️",
+  "@streamer are you trying the boss tonight?",
+  "LUL LUL LUL that moment was hilarious",
+  "the squad is here 💪 we got you!",
+  "Pog Pog Pog insane gameplay",
 ];
 
 const NAMES = {
@@ -349,10 +349,10 @@ function sendTestAlert(type) {
   if (!frame.contentWindow) return;
 
   const alerts = {
-    'follower-latest':   { name: 'NouvelAbonné', amount: '' },
+    'follower-latest':   { name: 'NewFollower', amount: '' },
     'subscriber-latest': { name: 'SuperFan',     amount: '6', months: 6, message: 'J\'adore ce stream !' },
     'raid-latest':       { name: 'AutreStreamer', amount: '247' },
-    'cheer-latest':      { name: 'BitsDonateur',  amount: '1000', message: 'Voilà mes bits !' },
+    'cheer-latest':      { name: 'BitsDonor',     amount: '1000', message: 'Here are my bits!' },
     'tip-latest':        { name: 'DonFan',        amount: '10.00', message: 'Super contenu !' },
   };
 
