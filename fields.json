@@ -120,6 +120,17 @@
     "max": 15,
     "step": 1
   },
+  "currency": {
+    "type": "dropdown",
+    "label": "Currency for donations",
+    "value": "$",
+    "options": {
+      "$": "Dollar ($)",
+      "€": "Euro (€)",
+      "£": "Pound (£)",
+      "auto": "Automatic (my StreamElements currency)"
+    }
+  },
   "modColor": {
     "type": "colorpicker",
     "label": "Moderator color",
@@ -148,7 +159,7 @@
       "followers": "Followers",
       "subs": "Subscribers",
       "bits": "Bits",
-      "donations": "Donations (€)"
+      "donations": "Donations"
     }
   },
   "goalTitle": {
