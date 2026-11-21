@@ -20,8 +20,8 @@
     "label": "Message alignment",
     "value": "left",
     "options": {
-      "left":   "Left",
-      "right":  "Right",
+      "left": "Left",
+      "right": "Right",
       "center": "Center"
     }
   },
@@ -46,8 +46,8 @@
     "label": "Theme",
     "value": "amoled",
     "options": {
-      "dark":   "Dark (Gamer)",
-      "light":  "Light",
+      "dark": "Dark (Gamer)",
+      "light": "Light",
       "amoled": "AMOLED (Pure Black)"
     }
   },
@@ -55,6 +55,28 @@
     "type": "colorpicker",
     "label": "Accent color",
     "value": "#00c8ff"
+  },
+  "neonGlow": {
+    "type": "slider",
+    "label": "Neon — Glow intensity (%)",
+    "value": 100,
+    "min": 0,
+    "max": 200,
+    "step": 10
+  },
+  "neonFlicker": {
+    "type": "checkbox",
+    "label": "Neon — Flicker on when a message appears",
+    "value": true
+  },
+  "neonColorSource": {
+    "type": "dropdown",
+    "label": "Neon — Outline color",
+    "value": "role",
+    "options": {
+      "role": "Role color (mod, VIP, sub…)",
+      "user": "Viewer's Twitch color"
+    }
   },
   "showBadges": {
     "type": "checkbox",
@@ -80,9 +102,9 @@
     "value": "spring",
     "options": {
       "spring": "Spring (dynamic)",
-      "slide":  "Slide",
-      "fade":   "Fade",
-      "none":   "None"
+      "slide": "Slide",
+      "fade": "Fade",
+      "none": "None"
     }
   },
   "showAlerts": {
@@ -123,10 +145,10 @@
     "label": "Goal — Objective type",
     "value": "followers",
     "options": {
-      "followers":  "Followers",
-      "subs":       "Subscribers",
-      "bits":       "Bits",
-      "donations":  "Donations (€)"
+      "followers": "Followers",
+      "subs": "Subscribers",
+      "bits": "Bits",
+      "donations": "Donations (€)"
     }
   },
   "goalTitle": {
@@ -150,7 +172,7 @@
     "value": "horizontal",
     "options": {
       "horizontal": "Horizontal (bottom of screen)",
-      "vertical":   "Vertical (right side)"
+      "vertical": "Vertical (right side)"
     }
   },
   "goalColor": {
